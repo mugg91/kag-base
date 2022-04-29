@@ -20,8 +20,11 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 			}
 			else
 			{
-				map.server_SetTile(POSITION, CMap::tile_empty);
-				server_setDummyGridNetworkID(map.getTileOffset(POSITION), 0);
+				if (this.getHealth()==0) //this check fixes Obstructor and Sensor breaking background
+				{ 
+					map.server_SetTile(POSITION, CMap::tile_empty);
+					server_setDummyGridNetworkID(map.getTileOffset(POSITION), 0);
+				}
 			}
 		}
 	}
