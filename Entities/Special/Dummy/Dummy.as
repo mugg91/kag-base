@@ -1,9 +1,11 @@
+#include "Hitters.as";
+
 void onInit(CBlob@ this)
 {
 	this.getSprite().SetZ(-20.0f);
 	this.getSprite().animation.frame = (this.getNetworkID() * 31) % 4;
-
 	this.SetFacingLeft(((this.getNetworkID() + 27) * 31) % 18 > 9);
+	
 }
 
 void onGib(CSprite@ this)
