@@ -46,13 +46,17 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 {
 	if (damage > 0.0f)
 	{	
+		CSprite@ sprite = this.getSprite();
+	
 		if (worldPoint.x > this.getPosition().x)
 		{
-			this.setAngleDegrees(Maths::Max(this.getAngleDegrees() - 3 - XORRandom(10), -30));
+			//this.setAngleDegrees(Maths::Max(this.getAngleDegrees() - 3 - XORRandom(10), -30));
+			sprite.RotateBy(-2 - XORRandom(7), Vec2f(0.0f, 12.0f));
 		}
 		else
 		{
-			this.setAngleDegrees(Maths::Min(this.getAngleDegrees() + 3 + XORRandom(10), 30));
+			//this.setAngleDegrees(Maths::Min(this.getAngleDegrees() + 3 + XORRandom(10), 30));
+			sprite.RotateBy(2 + XORRandom(7), Vec2f(0.0f, 12.0f));
 		}
 	}
 	return damage;
