@@ -1,8 +1,9 @@
+#include "Hitters.as";
+
 void onInit(CBlob@ this)
 {
 	this.getSprite().SetZ(-20.0f);
 	this.getSprite().animation.frame = (this.getNetworkID() * 31) % 4;
-
 	this.SetFacingLeft(((this.getNetworkID() + 27) * 31) % 18 > 9);
 }
 
@@ -31,20 +32,28 @@ void onGib(CSprite@ this)
 		int r = (((blob.getNetworkID() + 1) * 31) % 3);
 		CParticle@ Large1   = makeGibParticle(filename, pos, vel + getRandomVelocity(90, hp - 0.2 , 80), 7 - (r % 2), 1 - (r / 2), Vec2f(16, 16), 2.0f, 20, "/material_drop", team);
 	}
+}
 
+bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
+{	
+    if (blob.getName() == "arrow" && this.getTeamNum() != blob.getTeamNum())
+    {
+        return true;
+    }
+    return false;
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
 {
 	if (damage > 0.0f)
-	{
+	{	
 		if (worldPoint.x > this.getPosition().x)
 		{
-			this.setAngleDegrees(this.getAngleDegrees() - 3 - XORRandom(10));
+			this.setAngleDegrees(Maths::Max(this.getAngleDegrees() - 3 - XORRandom(10), -30));
 		}
 		else
 		{
-			this.setAngleDegrees(this.getAngleDegrees() + 3 + XORRandom(10));
+			this.setAngleDegrees(Maths::Min(this.getAngleDegrees() + 3 + XORRandom(10), 30));
 		}
 	}
 	return damage;
