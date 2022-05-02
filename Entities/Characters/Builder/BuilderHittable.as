@@ -14,6 +14,7 @@ const string[] builder_alwayshit =
 	"trap_block",
 	"bridge",
 	"flowers",
+	"dummy",
 
 	//buildings
 	"factory",
@@ -64,7 +65,5 @@ bool isUrgent( CBlob@ this, CBlob@ b )
 			//trees
 			b.getName().find("tree") != -1 ||
 			//spikes
-			b.getName() == "spikes" ||
-			//ladder
-			b.getName() == "ladder";
+			b.getName() == "spikes";
 }
