@@ -1,4 +1,3 @@
-#include "Hitters.as";
 
 void onInit(CBlob@ this)
 {
