@@ -96,7 +96,6 @@ f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitt
 		}
 	}
 
-
 	if (getNet().isServer()) {
 		const string name = hitterBlob.getName();
 
@@ -203,4 +202,14 @@ void SetFrame(CBlob@ blob, bool filled)
 void onThisAddToInventory(CBlob@ this, CBlob@ inventoryBlob)
 {
 	this.doTickScripts = true;
+}
+
+void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint)
+{
+	this.getCurrentScript().tickFrequency = 1;
+}
+
+void onDetach(CBlob@ this, CBlob@ detached, AttachmentPoint@ attachedPoint)
+{
+	this.getCurrentScript().tickFrequency = 20;
 }
