@@ -23,46 +23,55 @@ void onInit(CBlob@ this)
 	this.addCommandID("fill");
 
 	this.set_u8("filled", this.hasTag("_start_filled") ? splashes : 0);
+	this.set_u32("ticks_attached", 0);
 	this.Tag("ignore fall");
-	this.getCurrentScript().runFlags |= Script::tick_attached;
 }
 
 void onTick(CBlob@ this)
-{
-	//(prevent splash when bought filled)
-	if (this.getTickSinceCreated() < 10) {
-		return;
-	}
-
-	u8 filled = this.get_u8("filled");
-	if (filled < splashes && this.isInWater())
+{	
+	if (this.isAttached())
 	{
-		this.set_u8("filled", splashes);
-		this.set_u8("water_delay", 30);
-		SetFrame(this, true);
-	}
-
-	if (filled != 0)
-	{
-		AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
-		u8 water_delay = this.get_u8("water_delay");
-
-		if (water_delay > 0)
-		{
-			this.set_u8("water_delay", water_delay - 1);
+		this.set_u32("ticks_attached", this.get_u32("ticks_attached")+1);
+		
+		//(prevent splash when picked up recently)
+		if (this.get_u32("ticks_attached") < 10) {
+			return;
 		}
-		else{
-			CBlob@ occupiedBlob = point.getOccupied();
-			if (occupiedBlob !is null && 
-				 occupiedBlob.isMyPlayer() && 
-				 occupiedBlob.isKeyJustPressed(key_action1) && 
-				 !this.isInWater() &&
-				 !occupiedBlob.isKeyPressed(key_inventory)) // prevent splash when doing stuff with inventory
+
+		u8 filled = this.get_u8("filled");
+		if (filled < splashes && this.isInWater())
+		{
+			this.set_u8("filled", splashes);
+			this.set_u8("water_delay", 30);
+			SetFrame(this, true);
+		}
+
+		if (filled != 0)
+		{
+			AttachmentPoint@ point = this.getAttachments().getAttachmentPointByName("PICKUP");
+			u8 water_delay = this.get_u8("water_delay");
+
+			if (water_delay > 0)
 			{
-				this.SendCommand(this.getCommandID("splash"));
-				this.set_u8("water_delay", 30);
+				this.set_u8("water_delay", water_delay - 1);
+			}
+			else{
+				CBlob@ occupiedBlob = point.getOccupied();
+				if (occupiedBlob !is null && 
+					 occupiedBlob.isMyPlayer() && 
+					 occupiedBlob.isKeyJustPressed(key_action1) && 
+					 !this.isInWater() &&
+					 !occupiedBlob.isKeyPressed(key_inventory)) // prevent splash when doing stuff with inventory
+				{
+					this.SendCommand(this.getCommandID("splash"));
+					this.set_u8("water_delay", 30);
+				}
 			}
 		}
+	}
+	else
+	{
+		this.set_u32("ticks_attached", 0);
 	}
 }
 
@@ -189,4 +198,9 @@ void SetFrame(CBlob@ blob, bool filled)
 		animation.SetFrameIndex(index);
 		blob.inventoryIconFrame = index;
 	}
+}
+
+void onThisAddToInventory(CBlob@ this, CBlob@ inventoryBlob)
+{
+	this.doTickScripts = true;
 }
