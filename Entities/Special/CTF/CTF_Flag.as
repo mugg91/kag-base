@@ -283,8 +283,13 @@ bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
 
 void onAttach( CBlob@ this, CBlob@ attached, AttachmentPoint @attachedPoint )
 {
-    if (!getNet().isServer())
-        return;
+    if (isClient())
+    {
+        this.Untag("return");
+        this.set_u16(return_prop, 0);
+    }
+
+    if (isServer()) return;
 
     CRules@ rules = getRules();
 
