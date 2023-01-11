@@ -219,7 +219,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	else if (cmd == this.getCommandID("rest"))
 	{
 		u16 caller_id;
-		if (!params.saferead_netid(caller_id) || this.get_bool("quarters is destroyed"))
+		if (!params.saferead_netid(caller_id))
 		{
 			return;
 		}
@@ -249,6 +249,12 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 
 void onAttach(CBlob@ this, CBlob@ attached, AttachmentPoint@ attachedPoint)
 {
+	if (this.getHealth() <= 0.0f)
+	{
+		attached.server_DetachFrom(this);
+		return;
+	}
+	
 	attached.getShape().getConsts().collidable = false;
 	attached.SetFacingLeft(true);
 	attached.AddScript("WakeOnHit.as");
@@ -362,9 +368,4 @@ bool bedAvailable(CBlob@ this)
 bool requiresTreatment(CBlob@ this, CBlob@ caller)
 {
 	return caller.getHealth() < caller.getInitialHealth() && (!caller.isAttached() || caller.isAttachedTo(this));
-}
-
-void onDie(CBlob@ this)
-{
-	this.set_bool("quarters is destroyed", true);
 }
