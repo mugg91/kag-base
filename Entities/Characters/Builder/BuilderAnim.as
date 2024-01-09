@@ -1,15 +1,15 @@
 // Builder animations
 
-#include "BuilderCommon.as"
-#include "FireCommon.as"
-#include "Requirements.as"
-#include "RunnerAnimCommon.as"
-#include "RunnerCommon.as"
-#include "KnockedCommon.as"
-#include "PixelOffsets.as"
-#include "RunnerTextures.as"
-#include "Accolades.as"
-
+#include "BuilderCommon.as";
+#include "FireCommon.as";
+#include "Requirements.as";
+#include "RunnerAnimCommon.as";
+#include "RunnerCommon.as";
+#include "RunnerCursorCommon.as";
+#include "KnockedCommon.as";
+#include "PixelOffsets.as";
+#include "RunnerTextures.as";
+#include "Accolades.as";
 
 //
 
@@ -302,15 +302,7 @@ void onTick(CSprite@ this)
 	}
 }
 
-void DrawCursorAt(Vec2f position, string& in filename)
-{
-	position = getMap().getAlignedWorldPos(position);
-	if (position == Vec2f_zero) return;
-	position = getDriver().getScreenPosFromWorldPos(position - Vec2f(1, 1));
-	GUI::DrawIcon(filename, position, getCamera().targetDistance * getDriver().getResolutionScaleFactor());
-}
-
-// render cursors
+// render cursor
 
 const string cursorTexture = "Entities/Characters/Sprites/TileCursor.png";
 

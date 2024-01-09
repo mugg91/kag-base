@@ -3,11 +3,12 @@
 #include "KnightCommon.as";
 #include "RunnerAnimCommon.as";
 #include "RunnerCommon.as";
+#include "RunnerCursorCommon.as";
 #include "KnockedCommon.as";
-#include "PixelOffsets.as"
-#include "RunnerTextures.as"
-#include "Accolades.as"
-#include "ShieldCommon.as"
+#include "PixelOffsets.as";
+#include "RunnerTextures.as";
+#include "Accolades.as";
+#include "ShieldCommon.as";
 #include "CrouchCommon.as";
 
 const string shiny_layer = "shiny bit";
@@ -432,18 +433,9 @@ void onGib(CSprite@ this)
 	CParticle@ Sword    = makeGibParticle("Entities/Characters/Knight/KnightGibs.png", pos, vel + getRandomVelocity(90, hp + 1 , 80), 3, 0, Vec2f(16, 16), 2.0f, 0, "Sounds/material_drop.ogg", team);
 }
 
-
-// render cursors
-
-void DrawCursorAt(Vec2f position, string& in filename)
-{
-	position = getMap().getAlignedWorldPos(position);
-	if (position == Vec2f_zero) return;
-	position = getDriver().getScreenPosFromWorldPos(position - Vec2f(1, 1));
-	GUI::DrawIcon(filename, position, getCamera().targetDistance * getDriver().getResolutionScaleFactor());
-}
-
 const string cursorTexture = "Entities/Characters/Sprites/TileCursor.png";
+
+// render cursor
 
 void onRender(CSprite@ this)
 {
