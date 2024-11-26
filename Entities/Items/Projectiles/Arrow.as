@@ -255,7 +255,9 @@ void onTick(CBlob@ this)
 
 void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point1)
 {
-	if (blob !is null && doesCollideWithBlob(this, blob) && !this.hasTag("collided"))
+	if (blob is null)
+		return;
+
 	// burning platform ignites arrow
 	const u8 arrowType = this.get_u8("arrow type");
 	bool should_ignite = blob.hasTag("burning") && blob.isPlatform();
