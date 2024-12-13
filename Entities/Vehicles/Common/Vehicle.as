@@ -4,6 +4,7 @@
 void onInit(CBlob@ this)
 {
 	this.Tag("vehicle");
+	this.Tag("blocks sword");
 }
 
 void onTick(CBlob@ this)
