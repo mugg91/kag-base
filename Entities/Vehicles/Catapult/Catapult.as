@@ -93,7 +93,7 @@ class CatapultInfo : VehicleInfo
 			vel += (Vec2f((_r.NextFloat() - 0.5f) * 128, (_r.NextFloat() - 0.5f) * 128) * 0.01f);
 			vel.RotateBy(this.getAngleDegrees());
 
-			if (bullet.hasTag("player"))
+			if (bullet.hasTag("player") || bullet.hasTag("dinghy"))
 			{
 				delay *= f32(cooldown_time_player) / cooldown_time_ammo;
 				bullet.setVelocity(vel * player_launch_modifier);
