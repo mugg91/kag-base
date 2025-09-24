@@ -140,7 +140,7 @@ void onDie(CBlob@ this)
 		1.0f,                               // scale?
 		0,                                  // ?
 		"",                                 // sound
-		this.get_u8("col"));                // team number
+		this.get_u8("color"));              // team number
 	}
 }
 
