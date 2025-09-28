@@ -15,7 +15,7 @@ void onTick(CBlob@ this)
 	if (this.getPosition().y < this.getHeight())
 	{
 		if (DECAY_DEBUG)
-			printf(this.getName() + " decay sky high");
+			printf(this.getName() + " decay in sky");
 		SelfDamage(this);
 	}
 }
