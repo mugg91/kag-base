@@ -42,11 +42,14 @@ void onTick(CBlob@ this)
 		}
 	}
 
-	if (this.isInWater())
+	// in water? 
+	CMap@ map = getMap();
+	if (this.isInWater() || map.isInWater(this.getPosition() + Vec2f(0, this.getHeight()/2)))
 	{
 		Extinguish(this);
 	}
 
+	// in flames?
 	if (this.isInFlames())
 	{
 		Ignite(this);
@@ -67,7 +70,9 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 	}
 	else if (blob.hasTag("fire source")) //fire arrow works
 	{
-		Ignite(this);
+		CMap@ map = getMap();
+		if (!(this.isInWater() || map.isInWater(this.getPosition() + Vec2f(0, this.getHeight()/2))))
+			Ignite(this);
 	}
 }
 
