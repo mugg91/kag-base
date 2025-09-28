@@ -67,10 +67,9 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid)
 			food.setVelocity(blob.getVelocity().opMul(0.5f));
 		}
 	}
-	else if (blob.hasTag("fire source")) //fire arrow works
+	else if (blob.hasTag("fire source") && !isInWater(this)) //fire arrow works
 	{
-		if (!isInWater(this))
-			Ignite(this);
+		Ignite(this);
 	}
 }
 
