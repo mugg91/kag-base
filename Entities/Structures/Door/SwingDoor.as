@@ -44,6 +44,8 @@ void onInit(CBlob@ this)
 			this.set('harvest', harvest);
 		}
 	}
+	MakeDamageFrame(this);
+	
 	this.Tag("door");
 	this.Tag("blocks water");
 	this.Tag("explosion always teamkill"); // ignore 'no teamkill' for explosives
