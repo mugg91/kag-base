@@ -194,7 +194,7 @@ void PutInvInStorage(CBlob@ blob)
 		}
 }
 
-const bool enable_quickswap = false;
+const bool enable_quickswap = true;
 void CycleClass(CBlob@ this, CBlob@ blob)
 {
 	//get available classes
@@ -223,6 +223,8 @@ void CycleClass(CBlob@ this, CBlob@ blob)
 			//select default class
 			new_i = 0;
 		}
+
+		params.write_u8(new_i);
 
 		//switch to class
 		this.SendCommand(this.getCommandID("change class"), params);
