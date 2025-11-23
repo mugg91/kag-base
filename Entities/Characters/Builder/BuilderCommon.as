@@ -136,10 +136,9 @@ CBlob@ server_BuildBlob(CBlob@ this, BuildBlock[]@ blocks, const u32 &in index)
 
 		// take inv here instead of in onDetach
 		server_TakeRequirements(inv, b.reqs);
-		DestroyScenary(tl, br);
-
-		CPlayer@ p = this.getPlayer();
-		if (p !is null)
+		Vec2f halftile = Vec2f(map.tilesize/2, map.tilesize/2);
+		DestroyScenary(tl + halftile, br - halftile);
+		if (isServer())
 		{
 			GE_BuildBlob(p.getNetworkID(), b.name); // gameplay event for coins
 		}

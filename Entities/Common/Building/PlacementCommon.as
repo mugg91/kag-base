@@ -238,15 +238,28 @@ bool isBlocking(CBlob@ blob)
 
 void DestroyScenary(Vec2f tl, Vec2f br)
 {
-	if (getNet().isServer())
+	if (isServer())
 	{
+		// fetching blobs
 		CMap@ map = getMap();
-
-		CBlob@[] overlapping;
-		map.getBlobsInBox(tl, br, @overlapping);
-		for (uint i = 0; i < overlapping.length; i++)
+		CBlob@[] blobs;
+		uint counter = 0;
+		for (uint i = 0; tl.x + i <= br.x; i = i + map.tilesize)
 		{
-			CBlob@ blob = overlapping[i];
+			for (uint j = 0; tl.y + j <= br.y; j = j + map.tilesize)
+			{
+				print(tl+Vec2f(i,j) +"");
+				map.getBlobsAtPosition(tl + Vec2f(i, j), @blobs);
+				counter++;
+				if (counter > 20)
+					break;
+			}
+		}
+
+		// looping through blobs
+		for (uint i = 0; i < blobs.length; i++)
+		{
+			CBlob@ blob = blobs[i];
 			if (blob !is null && blob.hasTag("scenary"))
 			{
 				blob.server_Die();
